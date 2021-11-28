@@ -4,7 +4,7 @@ This is a study case of a system that simulates some usual transactions between 
 
 ---
 
-# Feature Mapping
+# 1. Feature Mapping
 
 There are only two type of users **Personal** and **Business** and in this system we will implement some features. The current mapped features are listed below. Feature suggestion are welcome feel free to [create a issue](https://github.com/CaioFlavio/simple-money-transaction-system/issues/new) with the _enhancement_ label.
 
@@ -68,3 +68,26 @@ There are only two type of users **Personal** and **Business** and in this syste
         - [ ] Validate the notify action using this [data](http://o4d9z.mocklab.io/notify)
       - [ ] Additional Features
         - [ ] Apply a defined tax when funds are received
+
+# 2. Running Local
+
+## 2.1 System Requirements
+  - Git (Tested on version 2.25.1)
+    -  If you dont have Git installed [click here](https://git-scm.com/book/en/v2/Getting-Started-Installing-Git) and follow the installation guide.
+  - Docker version 20.10.11 or higher (Tested on version 20.10.11)
+    - If you dont have docker installed [click here](https://docs.docker.com/engine/install/) and follow the installation guide.
+
+## 2.2 First Steps
+  - In your terminal run:
+    - git clone git@github.com:caioflavio/smts.git
+  - Enter on folder project: 
+    - cd smts 
+  - On the first run you need create the .env file that have the enviroment variables
+    - cp .env.example .env
+  - After copied the .env file you can proceed to run the project:
+    - ./vendor/bin/sail up
+  - By default the project is running on port 8081, it can be changed in .env changing the APP_PORT value.
+
+# Development References
+ - [Laravel Framework](https://laravel.com/docs/8.x/installation) - PHP Framework used on development
+ - [Laravel Sail](https://laravel.com/docs/8.x/sail) - Laravel's built-in docker container for application start 
