@@ -1,0 +1,81 @@
+ContextMap SimpleMoneyTransactionsMap {
+	type = SYSTEM_LANDSCAPE
+	state = TO_BE
+	
+    contains PersonalUserTransactionContext
+    contains BusinessUserTransactionContext
+    contains UserContext
+	contains PersonalUserContext
+	contains BusinessUserContext
+	contains TransationContext
+    contains TransactionAuthorizationContext
+	contains TransactionNotificationContext
+    contains NotificationAuthorizationContext
+
+    UserContext <-> BusinessUserContext
+    
+    UserContext <-> PersonalUserContext
+
+	TransationContext <-> PersonalUserTransactionContext
+
+	TransationContext <-> BusinessUserTransactionContext
+
+	PersonalUserContext [P] <-> [P] TransationContext
+
+	BusinessUserContext [P] <-> [P] TransationContext
+
+	TransactionAuthorizationContext [ACL, CF] <- [U] PersonalUserTransactionContext
+
+	TransactionNotificationContext <- PersonalUserTransactionContext
+
+	TransactionAuthorizationContext [ACL, CF] <- [U] BusinessUserTransactionContext
+
+	TransactionNotificationContext <- BusinessUserTransactionContext	
+
+	NotificationAuthorizationContext [ACL, CF] <- [U] TransactionNotificationContext
+
+}
+
+BoundedContext UserContext implements UserDomain
+
+BoundedContext PersonalUserContext implements UserDomain
+
+BoundedContext BusinessUserContext implements UserDomain
+
+BoundedContext TransationContext implements TransactionDomain
+
+BoundedContext PersonalUserTransactionContext implements TransactionDomain
+
+BoundedContext BusinessUserTransactionContext implements TransactionDomain
+
+BoundedContext TransactionAuthorizationContext implements TransactionAuthorizationDomain
+
+BoundedContext TransactionNotificationContext implements NotificationDomain
+
+BoundedContext NotificationAuthorizationContext implements NotificationAuthorizationDomain
+
+
+
+BoundedContext NotificationAuthro
+Domain SimpleMoneyTransactions {
+	Subdomain UserDomain {
+		type = CORE_DOMAIN
+		domainVisionStatement = "Subdomain that manages user related rules."
+	}
+    Subdomain TransactionDomain {
+		type = CORE_DOMAIN
+		domainVisionStatement = "Subdomain that manages transaction rules."
+	}
+	Subdomain NotificationDomain {
+		type = GENERIC_SUBDOMAIN
+		domainVisionStatement = "Subdomain that manages notifications rules."
+	}
+	Subdomain TransactionAuthorizationDomain {
+		type = SUPPORTING_DOMAIN
+		domainVisionStatement = "Subdomain that manages transaction external authorization rules."
+	}    
+	Subdomain NotificationAuthorizationDomain {
+		type = SUPPORTING_DOMAIN
+		domainVisionStatement = "Subdomain that manages notification external authorization rules."
+	}
+}
