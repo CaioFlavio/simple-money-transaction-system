@@ -3,6 +3,7 @@
 [Simple money transaction](#simple-money-transaction)  
 [1. Feature Mapping](#1-feature-mapping)  
 [2. Running Local](#2-running-local)  
+[3. Context Mapping](#3-context-mapping)  
 [Development References](#development-references)
 
 # Simple Money Transaction
@@ -93,6 +94,28 @@ There are only two type of users **Personal** and **Business** and in this syste
     - ./vendor/bin/sail up
   - By default the project is running on port 8081, it can be changed in .env changing the APP_PORT value.
 
+## 3. Context Mapping
+  We will use the following context map to module development of this system. This context map image was generate with [contextmapper.org](https://contextmapper.org/) tool.
+  ![SMTS Context Map](SMTS_ContextMap.png)
+
+## 3.1 Explanation
+  - The **User Context** allow us manage user creation and handle their shared rules
+  - The **Personal User Context** allow us manage the specific rules from personal users.
+  - The **Business User Context** allow us manage the specific rules from business users.
+    - **Personal User Context** and **Business User Context** depends on **User Context** it makes a Shared Kernel relation.
+    - **Personal User Context** and **Business User Context** communnicate each other on transactions then here we must have a paterniship relation and changes must attend each other muttualy.
+  - The **Transaction Context** allow us manage general rules for transaction between users.
+  - The **Personal User Transaction Context** allow us to handle specific rules for personal users transactions.
+  - The **Business User Transaction Context** allow us to handle specific rules for business users transactions.
+  - The **Transaction Authorization Context** allow us to handle specific rules for transaction effetivation.
+  - The **Transaction Notification Context** allow us to handle specific rules for transaction notification.
+      - **Personal User Transaction Context** and **Business User Transaction Context** depends on **Transaction Context** it makes a Shared Kernel relation.
+      - **Transaction Notification Context** and **Transaction Authorization Context** depends on external services changes without a previous notification can occour this makes a conformist relationship.
+        - We will make a anti corruption layer to each to make the impact of these unwanted changes minimum if they occur.
+
 # Development References
  - [Laravel Framework](https://laravel.com/docs/8.x/installation) - PHP Framework used on development
  - [Laravel Sail](https://laravel.com/docs/8.x/sail) - Laravel's built-in docker container for application start 
+ - [Context Mapper Tool](https://contextmapper.org/) - Context mapper drawning tool
+ - [DDD Strategic Design](https://blog.jonathanoliver.com/ddd-strategic-design-core-supporting-and-generic-subdomains/) - Article about DDD subdomain types
+ - [Bounded Contexts](https://www.eduardopires.net.br/2016/03/ddd-bounded-context/) - Article about DDD bounded contexts
