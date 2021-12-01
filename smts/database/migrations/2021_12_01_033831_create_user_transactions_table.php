@@ -21,6 +21,8 @@ class CreateUserTransactionsTable extends Migration
             $table->float('value');
             $table->timestamps();
             $table->softDeletes();
+            $table->foreign('sender_user_id')->references('id')->on('users');
+            $table->foreign('receiver_user_id')->references('id')->on('users');
         });
     }
 

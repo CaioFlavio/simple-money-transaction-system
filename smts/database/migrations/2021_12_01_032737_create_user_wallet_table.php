@@ -22,6 +22,7 @@ class CreateUserWalletTable extends Migration
             $table->tinyInteger('is_authorized');
             $table->timestamps();
             $table->softDeletes();
+            $table->foreign('user_id')->references('id')->on('users');
         });
     }
 
