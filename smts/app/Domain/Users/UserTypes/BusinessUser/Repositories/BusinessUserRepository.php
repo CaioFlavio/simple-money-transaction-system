@@ -1,14 +1,19 @@
 <?php
 namespace App\Domain\Users\UserTypes\BusinessUser\Repositories;
 
+use App\Domain\Users\UserTypes\BaseUser\Contracts\Entities\UserEntityInterface;
 use App\Domain\Users\UserTypes\BusinessUser\Contracts\Repositories\BusinessUserRepositoryInterface;
 
 class BusinessUserRepository implements BusinessUserRepositoryInterface
 {
+    const BUSINESS_USER_CODE = 1;
 
-    public function getTypeCode(): string
-    {
-        // TODO: Implement getTypeCode() method.
+    private $userEntity;
+
+    public function __construct(
+        UserEntityInterface $userEntity
+    ) {
+        $this->userEntity = $userEntity;
     }
 
     /**
@@ -16,7 +21,7 @@ class BusinessUserRepository implements BusinessUserRepositoryInterface
      */
     public function loadEntity($id): array
     {
-        // TODO: Implement loadEntity() method.
+        return $this->userEntity->loadEntity($id);
     }
 
     /**
@@ -24,7 +29,12 @@ class BusinessUserRepository implements BusinessUserRepositoryInterface
      */
     public function createEntity(array $data): array
     {
-        // TODO: Implement createEntity() method.
+        return $this->userEntity->createEntity(
+            array_merge(
+                ['user_type_id' => $this->getTypeCode()],
+                $data
+            )
+        );
     }
 
     /**
@@ -32,7 +42,7 @@ class BusinessUserRepository implements BusinessUserRepositoryInterface
      */
     public function updateEntity($id, array $data): array
     {
-        // TODO: Implement updateEntity() method.
+        return $this->userEntity->updateEntity($id, $data);
     }
 
     /**
@@ -40,6 +50,11 @@ class BusinessUserRepository implements BusinessUserRepositoryInterface
      */
     public function deleteEntity($id): bool
     {
-        // TODO: Implement deleteEntity() method.
+        return $this->userEntity->deleteEntity($id);
+    }
+
+    public function getTypeCode(): string
+    {
+        return static::BUSINESS_USER_CODE;
     }
 }

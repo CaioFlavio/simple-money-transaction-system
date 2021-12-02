@@ -7,6 +7,8 @@ use App\Domain\Users\UserTypes\BusinessUser\Contracts\Repositories\BusinessAccou
 class BusinessAccountRepository implements BusinessAccountRepositoryInterface
 {
 
+    const BUSINESS_USER_CODE = 1;
+
     /**
      * @inheritDoc
      */
