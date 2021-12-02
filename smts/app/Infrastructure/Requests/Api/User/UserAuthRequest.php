@@ -15,7 +15,7 @@ class UserAuthRequest extends FormRequest
     public function rules()
     {
         return [
-            'email'             => 'required|email:rfc,dns|exists:users,email',
+            'email'             => 'required|email:rfc|exists:users,email',
             'password'          => 'required',
         ];
     }
