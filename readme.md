@@ -29,18 +29,18 @@ There are only two type of users **Personal** and **Business** and in this syste
         - [ ] Email confirmation
     - [x] Login
     - [ ] Transactions
-      - [ ] Basic Features
-        - [ ] Add funds to the account
-        - [ ] Remove funds from the account
-        - [ ] Transfer funds to **Personal** users
-        - [ ] Transfer funds to **Business** users
-        - [ ] Receive funds from **Personal** users
-        - [ ] Receive funds from **Business** users
+      - [x] Basic Features
+        - [x] Add funds to the account
+        - [x] Remove funds from the account
+        - [x] Transfer funds to **Personal** users
+        - [x] Transfer funds to **Business** users
+        - [x] Receive funds from **Personal** users
+        - [x] Receive funds from **Business** users
       - [ ] Restrictions
-        - [ ] Must have funds to remove funds action
-        - [ ] Must have funds to transfer to other accounts
+        - [x] Must have funds to remove funds action
+        - [x] Must have funds to transfer to other accounts
         - [ ] Must validate the transference action using this [data](https://run.mocky.io/v3/8fafdd68-a090-496f-8c9a-3442cf30dae6)
-        - [ ] On trasfer fail must return the funds
+        - [x] On trasfer fail must return the funds
       - [ ] Notifications
         - [ ] Notify user when a transaction occur
         - [ ] Validate the notify action using this [data](http://o4d9z.mocklab.io/notify)
@@ -62,15 +62,15 @@ There are only two type of users **Personal** and **Business** and in this syste
         - [ ] Email confirmation
     - [x] Login
     - [ ] Transactions
-      - [ ] Basic Features
-        - [ ] Add funds to the account
-        - [ ] Remove funds from the account
-        - [ ] Receive funds from **Personal** users
-        - [ ] Receive funds from **Business** users
+      - [x] Basic Features
+        - [x] Add funds to the account
+        - [x] Remove funds from the account
+        - [x] Receive funds from **Personal** users
+        - [x] Receive funds from **Business** users
       - [ ] Restrictions
-        - [ ] Must have funds to remove funds action
+        - [x] Must have funds to remove funds action
         - [ ] Must validate the transference action using this [data](https://run.mocky.io/v3/8fafdd68-a090-496f-8c9a-3442cf30dae6)
-        - [ ] On trasfer fail must return the funds
+        - [x] On trasfer fail must return the funds
       - [ ] Notifications
         - [ ] Notify user when a transaction occur
         - [ ] Validate the notify action using this [data](http://o4d9z.mocklab.io/notify)

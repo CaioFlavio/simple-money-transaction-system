@@ -10,4 +10,32 @@ interface UserWalletEntityInterface extends CRUDInterface
      * @return array
      */
     public function getData($id) : array;
+
+    /**
+     * @return string
+     */
+    public function getInWalletCode() : string;
+
+    /**
+     * @return string
+     */
+    public function getOutWalletCode() : string;
+
+    /**
+     * @param $user_id
+     * @return array
+     */
+    public function getAllByUser($user_id) : array;
+
+    /**
+     * @param $user_id
+     * @return float
+     */
+    public function getInSumByUser($user_id) : float;
+
+    /**
+     * @param $user_id
+     * @return float
+     */
+    public function getOutSumByUser($user_id) : float;
 }
