@@ -2,11 +2,11 @@
     <div class="section">
         <div class="row">
             <div class="col s12">
-                <h1>SIGN-UP</h1>
+                <h1>Login</h1>
             </div>
         </div>
         <div class="row">
-            <form class="col s12" method="POST" onsubmit="newUser(event)">
+            <form class="col s12" method="POST" onsubmit="authUser(event)">
                 {{ csrf_field() }}
                 <div class="row">
                     <div class="input-field col s12">
@@ -22,7 +22,7 @@
                 </div>
                 <div class="row">
                     <div class="input-field col s12">
-                        <button class="btn waves-effect waves-light" type="submit">Register
+                        <button class="btn waves-effect waves-light" type="submit">Login
                             <i class="material-icons right">send</i>
                         </button>
                     </div>
@@ -31,3 +31,4 @@
         </div>
     </div>
 </div>
+@include('web.user.login.components.auth_js')
