@@ -14,19 +14,20 @@ This is a study case of a system that simulates some usual transactions between 
 
 There are only two type of users **Personal** and **Business** and in this system we will implement some features. The current mapped features are listed below. Feature suggestion are welcome feel free to [create a issue](https://github.com/CaioFlavio/simple-money-transaction-system/issues/new) with the _enhancement_ label.
 
-- [ ]  Personal users:
+- [ ]  Personal users
   - [ ] Basic Features
-    - [ ] Register:
-      - [ ] Required Information
-        - [ ] Full name
-        - [ ] CPF 
-        - [ ] E-mail
-        - [ ] Password
-      - [ ] Required Restrictions
-        - [ ] Email should be unique 
-        - [ ] CPF should be unique
+    - [x] Register
+      - [x] Required Information
+        - [x] Full name
+        - [x] CPF 
+        - [x] E-mail
+        - [x] Password
+      - [x] Required Restrictions
+        - [x] Email should be unique 
+        - [x] CPF should be unique
       - [ ] Additional
         - [ ] Email confirmation
+    - [x] Login
     - [ ] Transactions
       - [ ] Basic Features
         - [ ] Add funds to the account
@@ -46,19 +47,20 @@ There are only two type of users **Personal** and **Business** and in this syste
       - [ ] Additional Features
         - [ ] Apply a defined tax after a defined amount of free transactions
 
-- [ ] Business users :
+- [ ] Business users
   - [ ] Basic Features
-    - [ ] Register:
-      - [ ] Required Information
-        - [ ] Company name
-        - [ ] CNPJ 
-        - [ ] E-mail
-        - [ ] Password
-      - [ ] Required Restrictions
-        - [ ] Email should be unique 
-        - [ ] CNPJ should be unique
+    - [x] Register
+      - [x] Required Information
+        - [x] Company name
+        - [x] CNPJ 
+        - [x] E-mail
+        - [x] Password
+      - [x] Required Restrictions
+        - [x] Email should be unique 
+        - [x] CNPJ should be unique
       - [ ] Additional
         - [ ] Email confirmation
+    - [x] Login
     - [ ] Transactions
       - [ ] Basic Features
         - [ ] Add funds to the account
