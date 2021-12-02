@@ -55,7 +55,8 @@ class UserWalletRepository implements UserWalletRepositoryInterface
         $newEntry = $this->userWalletEntity->createEntity([
             'user_id'       => $user_id,
             'value'         => $value,
-            'type'          => static::WALLET_IN_CODE,
+            'description'   => $description,
+            'type'          => $this->userWalletEntity->getInWalletCode(),
             'is_authorized' => 1
         ]);
         return (!empty($newEntry)) ? true : false;
