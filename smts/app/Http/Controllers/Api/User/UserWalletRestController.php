@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api\User;
 
 use App\Domain\Users\UserFunds\UserWallet\Contracts\Repositories\UserWalletRepositoryInterface;
 use App\Infrastructure\Requests\Api\UserWallet\AddFundsRequest;
+use App\Infrastructure\Requests\Api\UserWallet\CheckBalanceRequest;
 use App\Infrastructure\Requests\Api\UserWallet\WithdrawFundsRequest;
 
 class UserWalletRestController
@@ -34,8 +35,13 @@ class UserWalletRestController
         return response()->json([], ($walletResponse) ? 201 : 401);
     }
 
-    public function getFunds()
-    {
-
+    public function checkBalance(
+        CheckBalanceRequest $request,
+        $id
+    ) {
+        $walletResponse = $this->userWalletRepository->getBalance($id);
+        return response()->json([
+            'current_balance'   => $walletResponse
+        ], );
     }
 }
