@@ -17,4 +17,18 @@ interface UserEntityInterface extends CRUDInterface
      * @return array
      */
     public function setUserAccountType($user_id, string $account_type_code) : array;
+
+    /**
+     * @param string $email
+     * @param string $password
+     * @return array
+     */
+    public function loadEntityFromCredentials(string $email, string $password) : array;
+
+    /**
+     * @param string $email
+     * @param string $password
+     * @return array
+     */
+    public function loadEntityAuth(string $email, string $password) : array;
 }

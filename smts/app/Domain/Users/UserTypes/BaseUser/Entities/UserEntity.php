@@ -3,9 +3,13 @@ namespace App\Domain\Users\UserTypes\BaseUser\Entities;
 
 use App\Domain\Users\UserTypes\BaseUser\Contracts\Entities\UserEntityInterface;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
+use Tymon\JWTAuth\Contracts\JWTSubject;
+use Tymon\JWTAuth\Facades\JWTAuth;
 
-class UserEntity extends Model implements UserEntityInterface
+class UserEntity extends Model implements UserEntityInterface, JWTSubject
 {
+    use SoftDeletes;
 
     protected $table = 'users';
 
@@ -30,6 +34,33 @@ class UserEntity extends Model implements UserEntityInterface
         } catch (\Exception $e) {
             return [];
         }
+    }
+
+    /**
+     * @param string $email
+     * @param string $password
+     * @return mixed
+     */
+    public function ormFindUserByCredential(string $email, string $password)
+    {
+        return $this->where('email', $email)
+            ->where('password', hash('sha256', $password));
+    }
+
+    public function loadEntityFromCredentials(string $email, string $password): array
+    {
+        try {
+            $user = $this->ormFindUserByCredential($email, $password);
+            return ($user->count() == 1) ? $user->first()->toArray() : [];
+        } catch (\Exception $e) {
+            return [];
+        }
+    }
+
+    public function loadEntityAuth(string $email, string $password) : array
+    {
+        $user = $this->ormFindUserByCredential($email, $password);
+        return ['token' => JWTAuth::fromUser($user->first())];
     }
 
     /**
@@ -81,5 +112,21 @@ class UserEntity extends Model implements UserEntityInterface
     public function setUserAccountType($user_id, string $account_type_code): array
     {
         // TODO: Implement setUserAccountType() method.
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function getJWTIdentifier()
+    {
+        return $this->id;
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function getJWTCustomClaims()
+    {
+        return [];
     }
 }
