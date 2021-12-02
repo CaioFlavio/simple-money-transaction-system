@@ -3,6 +3,7 @@ namespace App\Http\Controllers\Api\User;
 
 use App\Domain\Users\UserTypes\BaseUser\Contracts\Repositories\UserAccountRepositoryInterface;
 use App\Domain\Users\UserTypes\BaseUser\Factory\UserRepositoryFactory;
+use App\Infrastructure\Requests\Api\User\UserAuthRequest;
 use App\Infrastructure\Requests\Api\User\UserCreateRequest;
 use Illuminate\Support\Facades\Log;
 
@@ -14,10 +15,14 @@ class UserRestController
      */
     private $userRepositoryFactory;
 
+    private $userAccountRepository;
+
     public function __construct(
-        UserRepositoryFactory $userRepositoryFactory
+        UserRepositoryFactory $userRepositoryFactory,
+        UserAccountRepositoryInterface $userAccountRepository
     ){
         $this->userRepositoryFactory = $userRepositoryFactory;
+        $this->userAccountRepository = $userAccountRepository;
     }
 
     public function create(
@@ -36,17 +41,27 @@ class UserRestController
 
     public function read()
     {
-
+        //todo: implement user read;
     }
 
 
     public function update()
     {
-
+        //todo: implement user update;
     }
 
     public function delete()
     {
+        //todo: implement user delete;
+    }
 
+    public function auth(UserAuthRequest $request)
+    {
+        $loginData = $request->only('email', 'password');
+        $tokenData = $this->userAccountRepository->authenticate($loginData);
+        return response()->json(
+            $tokenData,
+            (!empty($tokenData)) ? 200 : 501
+        );
     }
 }
