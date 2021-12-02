@@ -25,8 +25,10 @@
                 'description': 'Dashboard Front'
             })
         });
-        const content = await rawResponse.json();
-        await reloadBalance();
+        if (rawResponse.status == 201) {
+            M.toast({html: 'Transference Successful!' });
+            await reloadBalance();
+        }else {M.toast({html: 'Transference Unauthorized' });}
     };
 
     async function withdrawFunds () {
@@ -45,8 +47,10 @@
                 'description': 'Dashboard Front'
             })
         });
-        const content = await rawResponse.json();
-        await reloadBalance();
+        if (rawResponse.status == 201) {
+            M.toast({html: 'Transference Successful!' });
+            await reloadBalance();
+        } else {M.toast({html: 'Transference Unauthorized' });}
     };
 
     async function reloadBalance()
@@ -61,12 +65,14 @@
                 'Authorization': `Bearer ${token}`
             },
         });
-        const content = await rawResponse.json();
-        let formatter = new Intl.NumberFormat('en-US', {
-            style: 'currency',
-            currency: 'USD',
-        });
-        document.getElementById("balance").textContent= formatter.format(content.current_balance);
+        if (rawResponse.status == 200) {
+            const content = await rawResponse.json();
+            let formatter = new Intl.NumberFormat('en-US', {
+                style: 'currency',
+                currency: 'USD',
+            });
+            document.getElementById("balance").textContent= formatter.format(content.current_balance);
+        } else { M.toast({html: 'Unable to reload balance' });}
     }
 
 
@@ -113,14 +119,10 @@
             },
             body: data
         });
-        if (rawResponse.status == 401) {
-            M.toast({html: 'Transference Unauthorized' });
-        }
-
         if (rawResponse.status == 200) {
             M.toast({html: 'Transference Successful!' });
             location.reload();
-        }
+        }else {M.toast({html: 'Transference Unauthorized' });}
 
     };
 

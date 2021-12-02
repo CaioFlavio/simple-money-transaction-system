@@ -38,11 +38,13 @@
             },
             body: data
         });
-        const content = await rawResponse.json();
-        console.log(content)
-        if (content.token.length) {
-            localStorage.setItem('token', content.token);
-        }
-        location.href = 'login/proceed?response=' + JSON.stringify(content);
+        if (rawResponse.status == 200) {
+            const content = await rawResponse.json();
+            console.log(content)
+            if (content.token.length) {
+                localStorage.setItem('token', content.token);
+            }
+            location.href = 'login/proceed?response=' + JSON.stringify(content);
+        } else {M.toast({html: 'Invalid user or password' });}
     };
 </script>
