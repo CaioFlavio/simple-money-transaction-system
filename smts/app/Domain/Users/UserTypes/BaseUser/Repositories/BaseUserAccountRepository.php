@@ -2,6 +2,7 @@
 namespace App\Domain\Users\UserTypes\BaseUser\Repositories;
 
 use App\Domain\Users\UserTypes\BaseUser\Contracts\Entities\UserEntityInterface;
+use App\Domain\Users\UserTypes\BaseUser\Contracts\Entities\UserTypeEntityInterface;
 use App\Domain\Users\UserTypes\BaseUser\Contracts\Repositories\UserAccountRepositoryInterface;
 
 class BaseUserAccountRepository implements UserAccountRepositoryInterface
@@ -10,9 +11,11 @@ class BaseUserAccountRepository implements UserAccountRepositoryInterface
     private $userEntity;
 
     public function __construct(
-        UserEntityInterface $userEntity
+        UserEntityInterface $userEntity,
+        UserTypeEntityInterface $userTypeEntity
     ){
         $this->userEntity = $userEntity;
+        $this->userTypeEntity = $userTypeEntity;
     }
 
     /**
@@ -44,7 +47,8 @@ class BaseUserAccountRepository implements UserAccountRepositoryInterface
      */
     public function getAccountType($user_id): array
     {
-        // TODO: Implement getAccountType() method.
+        $user = $this->userEntity->loadEntity($user_id);
+        return $this->userTypeEntity->loadEntity($user['user_type_id']);
     }
 
     /**
@@ -71,5 +75,10 @@ class BaseUserAccountRepository implements UserAccountRepositoryInterface
             return [];
         }
 
+    }
+
+    public function findUserIdByEmail(string $email)
+    {
+        return $this->userEntity->findIdBy('email', $email);
     }
 }

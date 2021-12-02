@@ -3,15 +3,21 @@ namespace App\Domain\Users\UserFunds\UserWallet\Repositories;
 
 use App\Domain\Users\UserFunds\UserWallet\Contracts\Entities\UserWalletEntityInterface;
 use App\Domain\Users\UserFunds\UserWallet\Contracts\Repositories\UserWalletRepositoryInterface;
+use App\Domain\Users\UserTypes\BaseUser\Contracts\Repositories\UserAccountRepositoryInterface;
+use Illuminate\Support\Facades\DB;
 
 class UserWalletRepository implements UserWalletRepositoryInterface
 {
     private $userWalletEntity;
 
+    private $userAccountRepository;
+
     public function __construct(
-        UserWalletEntityInterface $userWalletEntity
+        UserWalletEntityInterface $userWalletEntity,
+        UserAccountRepositoryInterface $userAccountRepository
     ){
         $this->userWalletEntity = $userWalletEntity;
+        $this->userAccountRepository = $userAccountRepository;
     }
 
     /**
@@ -112,5 +118,28 @@ class UserWalletRepository implements UserWalletRepositoryInterface
             return $this->withdrawFunds($user_id, $data['value'], $description);
         }
         return (!empty($newEntry)) ? true : false;
+    }
+
+    public function transferByEmail($sender_user_id, array $data) : bool
+    {
+        $accountType = $this->userAccountRepository->getAccountType($sender_user_id);
+        if ($accountType['can_send_money'] && $this->hasFunds($sender_user_id, $data['value'])) {
+            try {
+                DB::beginTransaction();
+                $receiver_user_id = $this->userAccountRepository->findUserIdByEmail($data['email']);
+                //TODO: ADD EXTERNAL AUTHORIZATION
+                $withdrawAction = $this->withdrawFunds($sender_user_id, $data['value'], "Transference to: {$data['email']}");
+                $addAction = $this->addFunds($receiver_user_id, $data['value'], "Transference from: {$data['email']}");
+                if($withdrawAction && $addAction) {
+                    DB::commit();
+                    return true;
+                }
+            } catch (\Exception $e) {
+                DB::rollBack();
+                return false;
+            }
+            DB::rollBack();
+        }
+        return false;
     }
 }

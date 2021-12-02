@@ -31,4 +31,11 @@ interface UserEntityInterface extends CRUDInterface
      * @return array
      */
     public function loadEntityAuth(string $email, string $password) : array;
+
+    /**
+     * @param string $field
+     * @param $value
+     * @return mixed
+     */
+    public function findIdBy(string $field, $value);
 }

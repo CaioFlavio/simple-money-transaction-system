@@ -63,6 +63,11 @@ class UserEntity extends Model implements UserEntityInterface, JWTSubject
         return ['token' => JWTAuth::fromUser($user->first())];
     }
 
+    public function findIdBy(string $field, $value) : int
+    {
+        return $this->where($field, $value)->first()->getAttribute('id');
+    }
+
     /**
      * @inheritDoc
      */
