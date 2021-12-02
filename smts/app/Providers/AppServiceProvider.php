@@ -6,9 +6,11 @@ use App\Domain\Users\UserFunds\UserWallet\Contracts\Entities\UserWalletEntityInt
 use App\Domain\Users\UserFunds\UserWallet\Contracts\Repositories\UserWalletRepositoryInterface;
 use App\Domain\Users\UserFunds\UserWallet\Repositories\UserWalletRepository;
 use App\Domain\Users\UserFunds\UserWallet\Entities\UserWalletEntity;
+use App\Domain\Users\UserTypes\BaseUser\Contracts\Entities\UserTypeEntityInterface;
 use App\Domain\Users\UserTypes\BaseUser\Contracts\Repositories\UserAccountRepositoryInterface;
 use App\Domain\Users\UserTypes\BaseUser\Entities\UserEntity;
 use App\Domain\Users\UserTypes\BaseUser\Contracts\Entities\UserEntityInterface;
+use App\Domain\Users\UserTypes\BaseUser\Entities\UserTypeEntity;
 use App\Domain\Users\UserTypes\BaseUser\Repositories\BaseUserAccountRepository;
 use App\Domain\Users\UserTypes\BusinessUser\Contracts\Repositories\BusinessUserRepositoryInterface;
 use App\Domain\Users\UserTypes\BusinessUser\Repositories\BusinessUserRepository;
@@ -30,6 +32,7 @@ class AppServiceProvider extends ServiceProvider
     public function register()
     {
         $this->app->bind(UserEntityInterface::class, UserEntity::class);
+        $this->app->bind(UserTypeEntityInterface::class, UserTypeEntity::class);
         $this->app->bind(UserAccountRepositoryInterface::class, BaseUserAccountRepository::class);
         $this->app->bind(PersonalAccountRepositoryInterface::class, PersonalAccountRepository::class);
         $this->app->bind(BusinessAccountRepositoryInterface::class, BusinessAccountRepository::class);
