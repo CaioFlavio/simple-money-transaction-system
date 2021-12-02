@@ -3,7 +3,9 @@
 [Simple money transaction](#simple-money-transaction)  
 [1. Feature Mapping](#1-feature-mapping)  
 [2. Running Local](#2-running-local)  
-[3. Context Mapping](#3-context-mapping)  
+[3. Context Mapping](#3-context-mapping)
+[4. Api Endpoints](#4-api-endpoints)
+[5. Working Example](#5-working-example)
 [Development References](#development-references)
 
 # Simple Money Transaction
@@ -95,6 +97,10 @@ There are only two type of users **Personal** and **Business** and in this syste
   - After copied the .env file you can proceed to run the project:
     - ./vendor/bin/sail up
   - By default the project is running on port 8081, it can be changed in .env changing the APP_PORT value.
+  - If database data is not loaded you should run:
+    - docker exec -it sail_laravel bash
+    - Inside the docker terminal that was open, run:
+    - php artisan migrate && php artisan db:seed --class=UserTypesSeeder
 
 ## 3. Context Mapping
   We will use the following context map to module development of this system. This context map image was generate with [contextmapper.org](https://contextmapper.org/) tool.
@@ -115,6 +121,17 @@ There are only two type of users **Personal** and **Business** and in this syste
       - **Transaction Notification Context** and **Transaction Authorization Context** depends on external services changes without a previous notification can occour this makes a conformist relationship.
         - We will make a anti corruption layer to each to make the impact of these unwanted changes minimum if they occur.
 
+
+# 4. API Endpoints
+|Endpoint                            | Method| Description                                     |Required Headers                                                         | Payload Example  
+|---                                 |---    |---                                              |---                                                                      |---
+|/api/users                          | POST  | Allows user creation                            |```Content-Type: application/json```                                     |```{"name": "Caio F C Martins","email": "caioflavio2@hotmail.com.br","account_type": "personal","document_number": "16152358760","password": "12345678"} ```
+|/api/users/auth                     | POST  | Allows user token generation                    |```Content-Type: application/json```                                     |```{"email": "caioflavio2@hotmail.com.br","password": "12345678"} ```
+|/api/users/{user_id}/funds/add      | POST  | Allows add funds to a authenticated user        |```Content-Type: application/json``` ```Authorization: Bearer {token}``` |```{"description": "Add from test request","value": 50} ```
+|/api/users/{user_id}/funds/withdraw | POST  | Allows withdraw funds from a authenticated user |```Content-Type: application/json``` ```Authorization: Bearer {token}``` |```{"description": "Add from test request","value": 50} ```
+
+# 5. Working Example
+![working example](working-example.gif)
 # Development References
  - [Laravel Framework](https://laravel.com/docs/8.x/installation) - PHP Framework used on development
  - [Laravel Sail](https://laravel.com/docs/8.x/sail) - Laravel's built-in docker container for application start 
