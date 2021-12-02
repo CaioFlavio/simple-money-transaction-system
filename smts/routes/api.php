@@ -15,3 +15,4 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::post('users', [UserRestController::class, 'create']);
+Route::post('users/auth', [UserRestController::class, 'auth']);
