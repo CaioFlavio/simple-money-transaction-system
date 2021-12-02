@@ -59,8 +59,8 @@ class UserEntity extends Model implements UserEntityInterface, JWTSubject
 
     public function loadEntityAuth(string $email, string $password) : array
     {
-        $user = $this->ormFindUserByCredential($email, $password);
-        return ['token' => JWTAuth::fromUser($user->first())];
+        $user = $this->ormFindUserByCredential($email, $password)->first();
+        return $user ? ['token' => JWTAuth::fromUser($user)] : [];
     }
 
     public function findIdBy(string $field, $value) : int
