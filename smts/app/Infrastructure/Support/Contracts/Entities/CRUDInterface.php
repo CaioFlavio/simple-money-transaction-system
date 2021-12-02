@@ -7,24 +7,24 @@ interface CRUDInterface
      * @param $id
      * @return array
      */
-    public function load($id) : array;
+    public function loadEntity($id) : array;
 
     /**
      * @param array $data
      * @return array
      */
-    public function create(array $data) : array;
+    public function createEntity(array $data) : array;
 
     /**
      * @param $id
      * @param array $data
      * @return array
      */
-    public function update($id, array $data): array;
+    public function updateEntity($id, array $data): array;
 
     /**
      * @param $id
      * @return bool
      */
-    public function delete($id) : bool;
+    public function deleteEntity($id) : bool;
 }
