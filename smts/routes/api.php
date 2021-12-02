@@ -19,6 +19,6 @@ Route::post('users', [UserRestController::class, 'create']);
 Route::post('users/auth', [UserRestController::class, 'auth']);
 
 Route::middleware(['jwt.auth'])->group(function(){
-    Route::post('users/{id}/add_funds', [UserWalletRestController::class, 'add']);
-    Route::post('users/{id}/withdraw_funds', [UserWalletRestController::class, 'withdraw']);
+    Route::post('users/{id}/funds/add', [UserWalletRestController::class, 'add']);
+    Route::post('users/{id}/funds/withdraw', [UserWalletRestController::class, 'withdraw']);
 });
