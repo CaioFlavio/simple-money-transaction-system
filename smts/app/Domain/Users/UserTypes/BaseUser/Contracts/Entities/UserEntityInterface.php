@@ -1,5 +1,5 @@
 <?php
-namespace App\Domain\Users\BaseUser\Contracts\Entities;
+namespace App\Domain\Users\UserTypes\BaseUser\Contracts\Entities;
 
 use App\Infrastructure\Support\Contracts\Entities\CRUDInterface;
 
