@@ -46,4 +46,11 @@ interface UserWalletRepositoryInterface
      * @return float
      */
     public function getBalance($id) : float;
+
+    /**
+     * @param $user_id
+     * @param array $data
+     * @return bool
+     */
+    public function addFromRequest($user_id, array $data) : bool;
 }
