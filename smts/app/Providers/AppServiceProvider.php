@@ -2,6 +2,10 @@
 
 namespace App\Providers;
 
+use App\Domain\Users\UserFunds\UserWallet\Contracts\Entities\UserWalletEntityInterface;
+use App\Domain\Users\UserFunds\UserWallet\Contracts\Repositories\UserWalletRepositoryInterface;
+use App\Domain\Users\UserFunds\UserWallet\Repositories\UserWalletRepository;
+use App\Domain\Users\UserFunds\UserWallet\Entities\UserWalletEntity;
 use App\Domain\Users\UserTypes\BaseUser\Contracts\Repositories\UserAccountRepositoryInterface;
 use App\Domain\Users\UserTypes\BaseUser\Entities\UserEntity;
 use App\Domain\Users\UserTypes\BaseUser\Contracts\Entities\UserEntityInterface;
@@ -32,6 +36,10 @@ class AppServiceProvider extends ServiceProvider
         $this->app->bind(PersonalUserRepositoryInterface::class, PersonalUserRepository::class);
         $this->app->bind(BusinessUserRepositoryInterface::class, BusinessUserRepository::class);
         $this->app->bind(BusinessUserRepositoryInterface::class, BusinessUserRepository::class);
+
+        $this->app->bind(UserWalletEntityInterface::class, UserWalletEntity::class);
+        $this->app->bind(UserWalletRepositoryInterface::class, UserWalletRepository::class);
+
     }
 
     /**
