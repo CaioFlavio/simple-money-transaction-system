@@ -1,7 +1,7 @@
 <?php
 namespace App\Domain\Users\UserTypes\PersonalUser\Contracts\Entities;
 
-use App\Domain\Users\BaseUser\Contracts\Entities\UserEntityInterface;
+use App\Domain\Users\UserTypes\BaseUser\Contracts\Entities\UserEntityInterface;
 
 interface PersonalUserEntityInterface extends UserEntityInterface
 {

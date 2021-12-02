@@ -1,5 +1,5 @@
 <?php
-namespace App\Domain\Users\BaseUser\Contracts\Repositories;
+namespace App\Domain\Users\UserTypes\BaseUser\Contracts\Repositories;
 
 interface UserAccountRepositoryInterface
 {

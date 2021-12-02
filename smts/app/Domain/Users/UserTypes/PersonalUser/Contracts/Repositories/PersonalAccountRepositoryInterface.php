@@ -1,7 +1,7 @@
 <?php
 namespace App\Domain\Users\UserTypes\PersonalUser\Contracts\Repositories;
 
-use App\Domain\Users\BaseUser\Contracts\Repositories\UserAccountRepositoryInterface;
+use App\Domain\Users\UserTypes\BaseUser\Contracts\Repositories\UserAccountRepositoryInterface;
 
 interface PersonalAccountRepositoryInterface extends UserAccountRepositoryInterface
 {
