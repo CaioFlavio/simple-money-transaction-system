@@ -14,7 +14,7 @@
                     <td>
                         <a class="waves-light btn" onclick="addFunds()">Add $ 50</a>
                         <a class="waves-light btn" onclick="withdrawFunds()">Withdraw $ 50</a>
-                        <a class="waves-light btn">Transfer</a>
+                        <a class="waves-light btn modal-trigger" href="#transfer_modal">Transfer</a>
                     </td>
                 </tr>
             </tbody>
