@@ -116,17 +116,33 @@ class UserWalletRepository implements UserWalletRepositoryInterface
      */
     public function addFromRequest($user_id, array $data): bool
     {
-        $description = $data['description'] ?? null;
-        return $this->addFunds($user_id, $data['value'], $description);
+        try {
+            DB::beginTransaction();
+            $description = $data['description'] ?? null;
+            $newWalletTransaction = $this->addFunds($user_id, $data['value'], $description);
+            DB::commit();
+            return $newWalletTransaction;
+        } catch (\Exception $e) {
+            DB::rollBack();
+            return false;
+        }
     }
 
     public function withdrawFromRequest($user_id, array $data) : bool
     {
-        if ($this->hasFunds($user_id, $data['value'])) {
-            $description = $data['description'] ?? null;
-            return $this->withdrawFunds($user_id, $data['value'], $description);
+        try {
+            DB::beginTransaction();
+                if ($this->hasFunds($user_id, $data['value'])) {
+                    $description = $data['description'] ?? null;
+                    return $this->withdrawFunds($user_id, $data['value'], $description);
+                }
+                $newWalletTransaction = (!empty($newEntry)) ? true : false;
+            DB::commit();
+            return $newWalletTransaction;
+        } catch (\Exception $e) {
+            DB::rollBack();
+            return false;
         }
-        return (!empty($newEntry)) ? true : false;
     }
 
     public function transferByEmail($sender_user_id, array $data) : bool
