@@ -1,6 +1,7 @@
 <?php
 namespace App\Domain\Users\UserFunds\UserWallet\Repositories;
 
+use App\Domain\Transactions\ExternalAuthorization\Contracts\ExternalAuthorizationApiServiceInterface;
 use App\Domain\Users\UserFunds\UserWallet\Contracts\Entities\UserWalletEntityInterface;
 use App\Domain\Users\UserFunds\UserWallet\Contracts\Repositories\UserWalletRepositoryInterface;
 use App\Domain\Users\UserTypes\BaseUser\Contracts\Repositories\UserAccountRepositoryInterface;
@@ -12,12 +13,16 @@ class UserWalletRepository implements UserWalletRepositoryInterface
 
     private $userAccountRepository;
 
+    private $externalAuthorizationApiService;
+
     public function __construct(
         UserWalletEntityInterface $userWalletEntity,
-        UserAccountRepositoryInterface $userAccountRepository
+        UserAccountRepositoryInterface $userAccountRepository,
+        ExternalAuthorizationApiServiceInterface $externalAuthorizationApiService
     ){
         $this->userWalletEntity = $userWalletEntity;
         $this->userAccountRepository = $userAccountRepository;
+        $this->externalAuthorizationApiService = $externalAuthorizationApiService;
     }
 
     /**
@@ -57,15 +62,17 @@ class UserWalletRepository implements UserWalletRepositoryInterface
      */
     public function addFunds($user_id, float $value, $description = null): bool
     {
-        // TODO: Add external authorization
-        $newEntry = $this->userWalletEntity->createEntity([
-            'user_id'       => $user_id,
-            'value'         => $value,
-            'description'   => $description,
-            'type'          => $this->userWalletEntity->getInWalletCode(),
-            'is_authorized' => 1
-        ]);
-        return (!empty($newEntry)) ? true : false;
+        if ($this->externalAuthorizationApiService->isAuthorized()) {
+            $newEntry = $this->userWalletEntity->createEntity([
+                'user_id'       => $user_id,
+                'value'         => $value,
+                'description'   => $description,
+                'type'          => $this->userWalletEntity->getInWalletCode(),
+                'is_authorized' => 1
+            ]);
+            return (!empty($newEntry)) ? true : false;
+        }
+        return false;
     }
 
     /**
@@ -73,15 +80,17 @@ class UserWalletRepository implements UserWalletRepositoryInterface
      */
     public function withdrawFunds($user_id, float $value, $description = null): bool
     {
-        // TODO: Add external authorization
-        $newEntry = $this->userWalletEntity->createEntity([
-            'user_id'       => $user_id,
-            'value'         => $value,
-            'type'          => $this->userWalletEntity->getOutWalletCode(),
-            'description'   => $description,
-            'is_authorized' => 1
-        ]);
-        return (!empty($newEntry)) ? true : false;
+        if ($this->externalAuthorizationApiService->isAuthorized()) {
+            $newEntry = $this->userWalletEntity->createEntity([
+                'user_id' => $user_id,
+                'value' => $value,
+                'type' => $this->userWalletEntity->getOutWalletCode(),
+                'description' => $description,
+                'is_authorized' => 1
+            ]);
+            return (!empty($newEntry)) ? true : false;
+        }
+        return false;
     }
 
     /**
@@ -123,11 +132,13 @@ class UserWalletRepository implements UserWalletRepositoryInterface
     public function transferByEmail($sender_user_id, array $data) : bool
     {
         $accountType = $this->userAccountRepository->getAccountType($sender_user_id);
-        if ($accountType['can_send_money'] && $this->hasFunds($sender_user_id, $data['value'])) {
+        if ($accountType['can_send_money']
+            && $this->hasFunds($sender_user_id, $data['value'])
+            && $this->externalAuthorizationApiService->isAuthorized()
+        ) {
             try {
                 DB::beginTransaction();
                 $receiver_user_id = $this->userAccountRepository->findUserIdByEmail($data['email']);
-                //TODO: ADD EXTERNAL AUTHORIZATION
                 $withdrawAction = $this->withdrawFunds($sender_user_id, $data['value'], "Transference to: {$data['email']}");
                 $addAction = $this->addFunds($receiver_user_id, $data['value'], "Transference from: {$data['email']}");
                 if($withdrawAction && $addAction) {
