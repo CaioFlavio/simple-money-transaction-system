@@ -2,6 +2,8 @@
 
 namespace App\Providers;
 
+use App\Domain\Transactions\ExternalAuthorization\Contracts\ExternalAuthorizationApiServiceInterface;
+use App\Domain\Transactions\ExternalAuthorization\Services\ExternalAuthorizationApiService;
 use App\Domain\Users\UserFunds\UserWallet\Contracts\Entities\UserWalletEntityInterface;
 use App\Domain\Users\UserFunds\UserWallet\Contracts\Repositories\UserWalletRepositoryInterface;
 use App\Domain\Users\UserFunds\UserWallet\Repositories\UserWalletRepository;
@@ -20,6 +22,8 @@ use App\Domain\Users\UserTypes\PersonalUser\Contracts\Repositories\PersonalUserR
 use App\Domain\Users\UserTypes\PersonalUser\Repositories\PersonalAccountRepository;
 use App\Domain\Users\UserTypes\PersonalUser\Contracts\Repositories\PersonalAccountRepositoryInterface;
 use App\Domain\Users\UserTypes\PersonalUser\Repositories\PersonalUserRepository;
+use App\Infrastructure\Services\Authorization\External\Contracts\ExternalAuthorizationApiInterface;
+use App\Infrastructure\Services\Authorization\External\ExternalAuthorizationApi;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -42,6 +46,9 @@ class AppServiceProvider extends ServiceProvider
 
         $this->app->bind(UserWalletEntityInterface::class, UserWalletEntity::class);
         $this->app->bind(UserWalletRepositoryInterface::class, UserWalletRepository::class);
+
+        $this->app->bind(ExternalAuthorizationApiServiceInterface::class, ExternalAuthorizationApiService::class);
+        $this->app->bind(ExternalAuthorizationApiInterface::class, ExternalAuthorizationApi::class);
 
     }
 
